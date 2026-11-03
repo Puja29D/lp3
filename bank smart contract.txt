@@ -1,0 +1,60 @@
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Bank {
+
+    address public accountHolder;
+    uint256 private balance;
+
+    // Constructor
+    constructor() {
+        accountHolder = msg.sender;
+    }
+
+    // Modifier to check account owner
+    modifier onlyAccountHolder() {
+        require(
+            msg.sender == accountHolder,
+            "You are not the account owner"
+        );
+        _;
+    }
+
+    // Deposit Ether
+    function deposit() public payable onlyAccountHolder {
+        require(
+            msg.value > 0,
+            "Deposit amount should be greater than zero"
+        );
+
+        balance += msg.value;
+    }
+
+    // Withdraw entire balance
+
+function withdraw() public onlyAccountHolder {
+    require(balance > 0, "You don't have enough balance");
+
+    uint256 amount = balance;
+
+    // Update balance before transferring Ether
+    balance = 0;
+
+    // Transfer Ether using call
+    (bool success, ) = payable(msg.sender).call{value: amount}("");
+
+    require(success, "Transfer failed");
+}
+
+
+    // Display account balance
+    function showBalance()
+        public
+        view
+        onlyAccountHolder
+        returns (uint256)
+    {
+        return balance;
+    }
+}

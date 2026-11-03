@@ -1,0 +1,41 @@
+recursive
+
+def fibonacci(n):
+    if n <= 1:
+        return n
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
+
+
+n = int(input("Enter the number of terms: "))
+
+for i in range(n):
+    print(fibonacci(i), end=" ")
+or 
+
+n = int(input("Enter position: "))
+
+print("Fibonacci number:", fibonacci(n))
+
+Time Complexity: O(2ⁿ)
+Space Complexity: O(n)
+
+
+
+non recursive
+
+def fibonacci(n):
+    a = 0
+    b = 1
+
+    for i in range(n):
+        a, b = b, a + b
+
+    return a
+
+n = int(input("Enter position: "))
+print(fibonacci(n))
+
+
+Time Complexity: O(n)
+Space Complexity: O(1)
